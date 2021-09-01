@@ -243,13 +243,13 @@ def editcomments(request, pk_projet, pk_issues, pk_comments):
             serializer = CommentsSerializer(comm)
             return Response(serializer.data, status=status.HTTP_200_OK)
         elif request.method == "DELETE":
-            if comm.author_user_id == user.id:
+            if comm.author_user_id.id == user.id:
                 comm.delete()
                 return Response("Comment deleted successfully", status=status.HTTP_200_OK)
             else:
                 return Response("Access denied", status=status.HTTP_403_FORBIDDEN)
         elif request.method == "PUT":
-            if comm.author_user_id == user.id:
+            if comm.author_user_id.id == user.id:
                 serializer = CommentPostSerializer(comm, data=request.data)
                 if serializer.is_valid():
                     serializer.save()
